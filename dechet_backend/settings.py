@@ -110,47 +110,42 @@ WSGI_APPLICATION = 'dechet_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# This file contains the WSGI configuration required to serve up your
-# web application at http://DOSSOUYOVO1.pythonanywhere.com/
-# It works by setting the variable 'application' to a WSGI handler of some
-# description.
-#
-# The below has been auto-generated for your Django project
-
 import os
 import sys
 
-# add your project directory to the sys.path
-# Chemin du dossier racine de votre projet Django
-project_home = '/home/DOSSOUYOVO1/premier'  # <--- CONFIRMÉ COMME CORRECT !
+# Add your project directory to the sys.path
+# This is the ABSOLUTE path to the root folder of your Django project.
+# It's now '/home/DOSSOUYOVO1/dechet_backend'
+project_home = '/home/DOSSOUYOVO1/dechet_backend'  # <--- Chemin CORRECT !
 if project_home not in sys.path:
     sys.path.insert(0, project_home)
 
-# set environment variable to tell django where your settings.py is
-# Le dossier contenant settings.py est le sous-dossier 'premier'
-os.environ['DJANGO_SETTINGS_MODULE'] = 'premier.settings' # <--- CONFIRMÉ COMME CORRECT !
+# Set environment variable to tell Django where your settings.py is
+# This should be the name of the Python folder that contains your settings.py.
+# If settings.py is in /home/DOSSOUYOVO1/dechet_backend/dechet_backend/settings.py, use 'dechet_backend.settings'.
+# If it's directly in /home/DOSSOUYOVO1/dechet_backend/settings.py, use 'dechet_backend.settings' as well.
+os.environ['DJANGO_SETTINGS_MODULE'] = 'dechet_backend.settings'  # <--- Nom CORRECT !
 
-# --- Variables d'environnement pour la Base de Données ---
+# --- Database Environment Variables ---
 os.environ['MYSQL_DATABASE_NAME'] = 'DOSSOUYOVO1$dechet_app_db'
 os.environ['MYSQL_DATABASE_USER'] = 'DOSSOUYOVO1'
-# Remplacez par le VRAI mot de passe de votre base de données MySQL sur PythonAnywhere.
-os.environ['MYSQL_DATABASE_PASSWORD'] = 'josemario' # <--- METTEZ VOTRE VRAI MOT DE PASSE ICI !
+# IMPORTANT: Replace 'YOUR_MYSQL_PASSWORD' with the ACTUAL password you set for your MySQL database on PythonAnywhere.
+os.environ['MYSQL_DATABASE_PASSWORD'] = 'VOTRE_MOT_DE_PASSE_MYSQL'  # <--- METTEZ VOTRE VRAI MOT DE PASSE ICI !
 os.environ['MYSQL_DATABASE_HOST'] = 'DOSSOUYOVO1.mysql.pythonanywhere-services.com'
 os.environ['MYSQL_DATABASE_PORT'] = '3306'
 
-# --- Variable d'environnement pour la clé secrète de Django (TRÈS IMPORTANT !) ---
-# Votre clé secrète de production.
+# --- Django Secret Key Environment Variable (VERY IMPORTANT!) ---
+# This is the key you generated: gnvy4ej@(ctgs2%-8rf4p_=6w-%z_-qu0to5(^@ox#t7h@l$cx
 os.environ['SECRET_KEY'] = 'gnvy4ej@(ctgs2%-8rf4p_=6w-%z_-qu0to5(^@ox#t7h@l$cx' # <--- VOTRE CLÉ SECRÈTE DE PRODUCTION
 
-# serve django via WSGI
+# Serve Django via WSGI
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-# Si vous utilisez Whitenoise (recommandé pour servir les fichiers statiques en production),
-# décommentez les lignes ci-dessous APRES l'avoir installé et configuré dans settings.py
+# If you are using Whitenoise to serve static files (recommended in production),
+# uncomment the lines below AFTER you have installed and configured it in settings.py
 # from whitenoise.django import DjangoWhiteNoise
 # application = DjangoWhiteNoise(application)
-
 
 # 1. Activez la gestion des fuseaux horaires
 
