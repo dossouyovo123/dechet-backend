@@ -59,10 +59,12 @@ SECRET_KEY = 'django-insecure-%(a5az!lt%4)$2!n!&8_tx3u$4(khbx$(74*4bs==n8n9#7#y&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
-ALLOWED_HOSTS = ['DOSSOUYOVO1.pythonanywhere.com', '127.0.0.1']
+# Application definition
 
 INSTALLED_APPS = [
+    'utilisateurs',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,7 +73,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',  # Ajoutez cette ligne
     'rest_framework',
-    'utilisateurs',
       'corsheaders',
 ]
 
@@ -106,50 +107,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dechet_backend.wsgi.application'
 
+SECRET_KEY = os.environ.get('SECRET_KEY', 'gnvy4ej@(ctgs2%-8rf4p_=6w-%z_-qu0to5(^@ox#t7h@l$cx') # Utilisez la clé de PythonAnywhere comme défaut si elle n'est pas définie localement
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import os
-import sys
+# Configuration de la Base de Données (la partie la plus importante ici)
 
-# Add your project directory to the sys.path
-# This is the ABSOLUTE path to the root folder of your Django project.
-# It's now '/home/DOSSOUYOVO1/dechet_backend'
-project_home = '/home/DOSSOUYOVO1/dechet_backend'  # <--- Chemin CORRECT !
-if project_home not in sys.path:
-    sys.path.insert(0, project_home)
-
-# Set environment variable to tell Django where your settings.py is
-# This should be the name of the Python folder that contains your settings.py.
-# If settings.py is in /home/DOSSOUYOVO1/dechet_backend/dechet_backend/settings.py, use 'dechet_backend.settings'.
-# If it's directly in /home/DOSSOUYOVO1/dechet_backend/settings.py, use 'dechet_backend.settings' as well.
-os.environ['DJANGO_SETTINGS_MODULE'] = 'dechet_backend.settings'  # <--- Nom CORRECT !
-
-# --- Database Environment Variables ---
-os.environ['MYSQL_DATABASE_NAME'] = 'DOSSOUYOVO1$dechet_app_db'
-os.environ['MYSQL_DATABASE_USER'] = 'DOSSOUYOVO1'
-# IMPORTANT: Replace 'YOUR_MYSQL_PASSWORD' with the ACTUAL password you set for your MySQL database on PythonAnywhere.
-os.environ['MYSQL_DATABASE_PASSWORD'] = 'VOTRE_MOT_DE_PASSE_MYSQL'  # <--- METTEZ VOTRE VRAI MOT DE PASSE ICI !
-os.environ['MYSQL_DATABASE_HOST'] = 'DOSSOUYOVO1.mysql.pythonanywhere-services.com'
-os.environ['MYSQL_DATABASE_PORT'] = '3306'
-
-# --- Django Secret Key Environment Variable (VERY IMPORTANT!) ---
-# This is the key you generated: gnvy4ej@(ctgs2%-8rf4p_=6w-%z_-qu0to5(^@ox#t7h@l$cx
-os.environ['SECRET_KEY'] = 'gnvy4ej@(ctgs2%-8rf4p_=6w-%z_-qu0to5(^@ox#t7h@l$cx' # <--- VOTRE CLÉ SECRÈTE DE PRODUCTION
-
-# Serve Django via WSGI
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-
-# If you are using Whitenoise to serve static files (recommended in production),
-# uncomment the lines below AFTER you have installed and configured it in settings.py
-# from whitenoise.django import DjangoWhiteNoise
-# application = DjangoWhiteNoise(application)
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQL_DATABASE_NAME', ' DOSSOUYOVO1$dechet_app_db'), # En prod: DOSSOUYOVO1$dechet_app_db, en dev: dechet_app_db
+        'USER': os.environ.get('MYSQL_DATABASE_USER', 'DOSSOUYOVO1'),          # En prod: DOSSOUYOVO1, en dev: root
+        'PASSWORD': os.environ.get('MYSQL_DATABASE_PASSWORD', 'josemario'), # En prod: votre_vrai_mdp, en dev: josemario
+        'HOST': os.environ.get('MYSQL_DATABASE_HOST', 'DOSSOUYOVO1.mysql'),     # En prod: DOSSOUYOVO1.mysql..., en dev: localhost
+        'PORT': os.environ.get('MYSQL_DATABASE_PORT', '3306'),          # En prod: 3306, en dev: 3306
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
+    }
+}
 # 1. Activez la gestion des fuseaux horaires
-
-
 USE_TZ = True
 
 

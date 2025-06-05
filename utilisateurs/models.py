@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
-
+from django.conf import settings 
 # Validator pour l'utilisateur avec lettres et espaces uniquement
 letters_and_spaces = RegexValidator(
     regex=r'^[A-Za-zÀ-ÿ\s]+$',
@@ -214,7 +214,7 @@ class PlanificationCollecte(models.Model):
     date_collecte = models.DateField()
     heure_collecte = models.TimeField()
    
-    collecteurs_assignes = models.ManyToManyField(CustomUser, related_name='planifications_collecte')
+    collecteurs_assignes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='planifications_collecte')
 
     class Meta:
         verbose_name = "Planification de Collecte"
@@ -224,7 +224,7 @@ class PlanificationCollecte(models.Model):
         return f"Collecte à {self.ville}, {self.quartier} le {self.date_collecte} à {self.heure_collecte}"
 
 class Notification(models.Model):
-    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='notifications')
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
