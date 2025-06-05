@@ -239,10 +239,8 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification pour {self.recipient.username}: {self.message[:50]}..."
 
+from django.conf import settings # Assurez-vous que cette ligne est présente
 
-from django.contrib.auth import get_user_model 
-
-User = get_user_model()
 class Retrait(models.Model):
     STATUT_CHOICES = [
         ('en_attente', 'En attente'),
@@ -251,10 +249,22 @@ class Retrait(models.Model):
         ('echec_kkiapay', 'Échec Kkiapay'),
         ('complete_kkiapay', 'Terminé par Kkiapay')
     ]
-    
-    collecteur = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='retraits_demandes_collecteur')
-    
-    citoyen = models.ForeignKey(User, on_delete=models.CASCADE, related_name='retraits_initie_citoyen', null=True, blank=True)    
+
+    collecteur = models.ForeignKey(
+        settings.AUTH_USER_MODEL, # <-- CORRIGÉ
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='retraits_demandes_collecteur'
+    )
+
+    citoyen = models.ForeignKey(
+        settings.AUTH_USER_MODEL, # <-- CORRIGÉ
+        on_delete=models.CASCADE, 
+        related_name='retraits_initie_citoyen', 
+        null=True, 
+        blank=True
+    )    
     montant = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     nom_beneficiaire = models.CharField(max_length=100)
     prenom_beneficiaire = models.CharField(max_length=100, blank=True, null=True)
@@ -262,7 +272,13 @@ class Retrait(models.Model):
     date_demande = models.DateTimeField(auto_now_add=True)
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente')
     date_traitement = models.DateTimeField(null=True, blank=True)
-    traite_par = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='retraits_traites')
+    traite_par = models.ForeignKey(
+        settings.AUTH_USER_MODEL, # <-- CORRIGÉ
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='retraits_traites'
+    )
     transaction_id_fournisseur = models.CharField(max_length=255, blank=True, null=True)
     message_echec = models.TextField(blank=True, null=True)
 
@@ -275,7 +291,7 @@ class Retrait(models.Model):
 
     @property
     def demandeur_full_name(self):
-        #  propriété générique pour le demandeur, qu'il soit citoyen ou collecteur
+        #  propriété générique pour le demandeur, qu'il soit citoyen ou collecteur
         if self.citoyen:
             return self.citoyen.get_full_name() or self.citoyen.username
         elif self.collecteur:
@@ -285,5 +301,3 @@ class Retrait(models.Model):
     @property
     def traite_par_full_name(self):
         return self.traite_par.get_full_name() or self.traite_par.username if self.traite_par else "N/A"
-
-    
