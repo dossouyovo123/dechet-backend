@@ -117,11 +117,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'gnvy4ej@(ctgs2%-8rf4p_=6w-%z_-qu0to5(
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQL_DATABASE_NAME', ' DOSSOUYOVO1$dechet_app_db'), # En prod: DOSSOUYOVO1$dechet_app_db, en dev: dechet_app_db
-        'USER': os.environ.get('MYSQL_DATABASE_USER', 'DOSSOUYOVO1'),          # En prod: DOSSOUYOVO1, en dev: root
-        'PASSWORD': os.environ.get('MYSQL_DATABASE_PASSWORD', 'josemario'), # En prod: votre_vrai_mdp, en dev: josemario
-        'HOST': os.environ.get('MYSQL_DATABASE_HOST', 'DOSSOUYOVO1.mysql'),     # En prod: DOSSOUYOVO1.mysql..., en dev: localhost
-        'PORT': os.environ.get('MYSQL_DATABASE_PORT', '3306'),          # En prod: 3306, en dev: 3306
+        'NAME': os.environ.get('MYSQL_DATABASE_NAME', 'DOSSOUYOVO1$dechet_app_db'), 
+        'USER': os.environ.get('MYSQL_DATABASE_USER', 'DOSSOUYOVO1'),         
+        'PASSWORD': os.environ.get('MYSQL_DATABASE_PASSWORD', 'josemario'), 
+        'HOST': os.environ.get('MYSQL_DATABASE_HOST', 'DOSSOUYOVO1.mysql.pythonanywhere-services.com'),     
+        'PORT': os.environ.get('MYSQL_DATABASE_PORT', '3306'),         
         'OPTIONS': {
             'sql_mode': 'STRICT_TRANS_TABLES',
         },
@@ -210,7 +210,7 @@ KKIAPAY_PUBLIC_KEY = os.environ.get('KKIAPAY_PUBLIC_KEY','6f25ee36979727a9b3d3a6
 KKIAPAY_SECRET_KEY = os.environ.get('KKIAPAY_SECRET_KEY','sk_7a2c8cade43107b2bd95a5b58b9edcb18f7bf4ec4207ee2a53f81617721988e7') # Clé secrète de test pour les décaissements
 KKIAPAY_MERCHANT_ID = os.environ.get('KKIAPAY_MERCHANT_ID','6830f4003605b0dc57721586')
 
-# pour tester votre application Flutter.
+# pour tester avec mon  application Flutter.
 KKIAPAY_TEST_NUMBERS = [
     '97000000', # Pour les succès
     '97000001', # Pour les échecs

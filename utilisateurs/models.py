@@ -34,7 +34,7 @@ class CustomUser(AbstractUser):
         blank=True,
         verbose_name="Adresse"
     )
-    user_type = models.CharField (
+    user_type = models.CharField(
         max_length=20,
         choices=[
             ('citoyen', 'Citoyen'),
@@ -77,6 +77,7 @@ class SacTri(models.Model):
         default=generate_numeric_id,  # Utilisez la fonction nommée
         editable=False
     )
+
     couleur = models.CharField(
         max_length=10,
         verbose_name="Couleur du sac",
@@ -86,6 +87,7 @@ class SacTri(models.Model):
             ('noir', 'Noir'),
         ]
     )
+
     statut = models.CharField(
         max_length=20,
         verbose_name="Statut du sac",
@@ -142,9 +144,7 @@ class SacCitoyen(models.Model):
         return f"Sacs pour {self.citoyen.username} le {self.date_reception}"
 
 from django.conf import settings  
-
 from django.db import models
-from django.conf import settings
 
 class Collecte(models.Model):
     """Modèle représentant une collecte de sacs effectuée par un collecteur pour un citoyen."""
@@ -173,6 +173,7 @@ class Collecte(models.Model):
         limit_choices_to={'user_type': 'collecteur'},
         verbose_name="Collecteur"
     )
+
     date_collecte = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Date de collecte"
@@ -239,7 +240,7 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification pour {self.recipient.username}: {self.message[:50]}..."
 
-from django.conf import settings # Assurez-vous que cette ligne est présente
+from django.conf import settings 
 
 class Retrait(models.Model):
     STATUT_CHOICES = [
@@ -251,7 +252,7 @@ class Retrait(models.Model):
     ]
 
     collecteur = models.ForeignKey(
-        settings.AUTH_USER_MODEL, # <-- CORRIGÉ
+        settings.AUTH_USER_MODEL, 
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True, 
@@ -259,7 +260,7 @@ class Retrait(models.Model):
     )
 
     citoyen = models.ForeignKey(
-        settings.AUTH_USER_MODEL, # <-- CORRIGÉ
+        settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
         related_name='retraits_initie_citoyen', 
         null=True, 
@@ -273,7 +274,7 @@ class Retrait(models.Model):
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente')
     date_traitement = models.DateTimeField(null=True, blank=True)
     traite_par = models.ForeignKey(
-        settings.AUTH_USER_MODEL, # <-- CORRIGÉ
+        settings.AUTH_USER_MODEL, 
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True, 
